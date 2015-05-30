@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:background="#66CCFF"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <LinearLayout android:orientation="vertical"
+                  android:background="#FFFFFF"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginTop="5dp"
+                  android:layout_marginBottom="5dp"
+                  android:layout_marginLeft="10dp"
+                  android:layout_marginRight="10dp" >
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Title"
+                android:textColor="#000000"
+                android:typeface="monospace" />
+        <TextView
+                android:id="@+id/date"
+                android:text="Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#808080"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+        <com.jennyabrahamson.smile.CustomImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        <TextView
+                android:id="@+id/votes"
+                android:text="Votes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#383838"
+                android:typeface="monospace" />
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#E6E6E6"
+                android:padding="10dp"
+                android:layout_margin="0dp">
+            <TextView android:layout_width="0dp"
+                      android:id="@+id/like"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:text="Like"/>
+<!--            <TextView android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:text="Save"/> -->
+<!--            <TextView android:layout_width="0dp"
+                      android:id="@+id/share"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:text="Share"/> -->
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
