@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.telephony.TelephonyManager;
 import com.crashlytics.android.Crashlytics;
+import com.facebook.appevents.AppEventsLogger;
 import com.parse.ParseAnalytics;
 import io.fabric.sdk.android.Fabric;
 
@@ -14,7 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
-import com.facebook.AppEventsLogger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.lucasr.smoothie.AsyncListView;

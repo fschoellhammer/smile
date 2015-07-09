@@ -2,6 +2,7 @@ package com.jennyabrahamson.smile;
 
 import android.app.Application;
 import android.content.Context;
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseCrashReporting;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -17,7 +18,9 @@ import java.io.File;
  *   Added Parse Analytics for better crash insights
  * V 1.2 : 5/8/2015
  *   Increase inset for hScroll
- *
+ * V 1.3 : 7/8/2015
+ *   Update SDK jars (FB, Audience Network, add Google Play Services)
+ *   Change ad implementation to use different ad managers for each hscroll unit
  */
 public class App extends Application {
 
@@ -41,6 +44,7 @@ public class App extends Application {
         builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
 
         mCache = builder.build();
+        FacebookSdk.sdkInitialize(this);
     }
 
     public BitmapLruCache getBitmapCache() {

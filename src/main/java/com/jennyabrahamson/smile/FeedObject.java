@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.facebook.AppEventsLogger;
 import com.facebook.ads.*;
+import com.facebook.appevents.AppEventsLogger;
 import com.parse.ParseAnalytics;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,7 +30,6 @@ public class FeedObject extends BaseAdapter {
     private int grayColor = Color.parseColor("#808080");
     private List<StoryItem> stories;
     private AppEventsLogger logger;
-    private NativeAdsManager adsManager;
     private Activity activity;
     private LayoutInflater layoutInflater;
     private List<NativeAdScrollView> adViews;
@@ -38,7 +37,10 @@ public class FeedObject extends BaseAdapter {
     private static final int NUM_HSCROLL = 4;
     private static final int AD_INTERVAL = 5;
 
+    private List<NativeAdsManager> adManagers;
+
     public FeedObject(final Activity context, List<StoryItem> stories) {
+
         activity = context;
         this.stories = stories;
 
@@ -51,20 +53,20 @@ public class FeedObject extends BaseAdapter {
 
         adViews = new ArrayList<NativeAdScrollView>();
 
-        adsManager = new NativeAdsManager(activity, "671640982961917_671644029628279",
-                NUM_HSCROLL * ADS_PER_HSCROLL);
-
-        adsManager.setListener(new NativeAdsManager.Listener() {
-            @Override
-            public void onAdsLoaded() {
-                int numAds = adsManager.getUniqueNativeAdCount();
-                Map dimensions = new HashMap();
-                dimensions.put("numAds", "" + numAds);
-                logEvent("adsLoaded", dimensions);
-                while (numAds >= ADS_PER_HSCROLL) {
-                    NativeAdScrollView scrollView = new NativeAdScrollView(activity, adsManager,
+        adManagers = new ArrayList<NativeAdsManager>();
+        for (int i = 0; i < NUM_HSCROLL; i++) {
+            final NativeAdsManager adManager = new NativeAdsManager(activity, "671640982961917_671644029628279", ADS_PER_HSCROLL);
+            adManagers.add(adManager);
+            adManager.setListener(new NativeAdsManager.Listener() {
+                @Override
+                public void onAdsLoaded() {
+                    int numAds = adManager.getUniqueNativeAdCount();
+                    Map dimensions = new HashMap();
+                    dimensions.put("numAds", "" + numAds);
+                    logEvent("adsLoaded", dimensions);
+                    NativeAdScrollView scrollView = new NativeAdScrollView(activity, adManager,
                             NativeAdView.Type.HEIGHT_300, new NativeAdViewAttributes()
-                            .setButtonTextColor(0xffffffff)
+                            .setButtonTextColor(Color.WHITE)
                             .setButtonBorderColor(0xff8bc615)
                             .setButtonColor(0xff8bc615),
                             ADS_PER_HSCROLL);
@@ -72,19 +74,19 @@ public class FeedObject extends BaseAdapter {
                     scrollView.setPadding(
                             0, Math.round(5 * metrics.density), 0, Math.round(5 * metrics.density));
                     adViews.add(0, scrollView);
-                    numAds -= ADS_PER_HSCROLL;
-                }
-                notifyUi();
-            }
 
-            @Override
-            public void onAdError(AdError adError) {
-                Map<String, String> dimensions = new HashMap();
-                dimensions.put("error", adError.getErrorMessage());
-                logEvent("adError", dimensions);
-            }
-        });
-        adsManager.loadAds();
+                    notifyUi();
+                }
+
+                @Override
+                public void onAdError(AdError adError) {
+                    Map<String, String> dimensions = new HashMap();
+                    dimensions.put("error", adError.getErrorMessage());
+                    logEvent("adError", dimensions);
+                }
+            });
+            adManager.loadAds();
+        }
 
         logEvent("adRequest", null);
     }
