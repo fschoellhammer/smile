@@ -2,7 +2,12 @@ package com.jennyabrahamson.smile;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+import com.google.ads.conversiontracking.AdWordsConversionReporter;
 import com.parse.Parse;
 import com.parse.ParseCrashReporting;
 import uk.co.senab.bitmapcache.BitmapLruCache;
@@ -43,8 +48,41 @@ public class App extends Application {
         builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
         builder.setDiskCacheEnabled(true).setDiskCacheLocation(cacheDir);
 
+        // Smile First Open
+        // Google Android first open conversion tracking snippet
+        AdWordsConversionReporter.reportWithConversionId(this.getApplicationContext(),
+                "977195602", "H29PCIaL8l4Q0qT70QM", "0.00", false);
+
+
         mCache = builder.build();
         FacebookSdk.sdkInitialize(this);
+    }
+
+    private static final String LAST_RECORDED_VERSION_KEY = "last_recorded_app_version";
+
+    public void onResume() {
+        try {
+            SharedPreferences mPrefs = getApplicationContext().getSharedPreferences(
+                    LAST_RECORDED_VERSION_KEY, Context.MODE_PRIVATE);
+            PackageInfo packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            int currentAppVersion = packageInfo.versionCode;
+            int lastRecordedAppVersion = mPrefs.getInt(LAST_RECORDED_VERSION_KEY, -1);
+            if (currentAppVersion > lastRecordedAppVersion) {
+
+                // Smile App Upgrades
+                // Google Android in-app conversion tracking snippet
+                AdWordsConversionReporter.reportWithConversionId(this.getApplicationContext(),
+                        "977195602", "W0xiCLbn5l4Q0qT70QM", "0.00", true);
+
+                // Facebook app event
+                AppEventsLogger logger = AppEventsLogger.newLogger(this);
+                logger.logEvent("App upgrade to: " + currentAppVersion);
+
+                SharedPreferences.Editor editor = mPrefs.edit();
+                editor.putInt(LAST_RECORDED_VERSION_KEY, currentAppVersion);
+                editor.commit();
+            }
+        } catch (PackageManager.NameNotFoundException e) {}
     }
 
     public BitmapLruCache getBitmapCache() {

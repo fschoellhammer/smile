@@ -18,6 +18,11 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="56b5a22af9c986e2046616a5c5562ea4ec15cc48" />
+        <receiver android:name="com.google.ads.conversiontracking.InstallReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
