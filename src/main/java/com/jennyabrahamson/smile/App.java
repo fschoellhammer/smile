@@ -34,6 +34,7 @@ public class App extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         File cacheDir = new File(getCacheDir(), "smoothie");
         cacheDir.mkdirs();
 
@@ -48,6 +49,7 @@ public class App extends Application {
 
 
         mCache = builder.build();
+        FacebookSdk.setApplicationId("419566964845443");
         FacebookSdk.sdkInitialize(this);
     }
 
