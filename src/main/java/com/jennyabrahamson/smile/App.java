@@ -8,8 +8,6 @@ import android.content.pm.PackageManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.ads.conversiontracking.AdWordsConversionReporter;
-import com.parse.Parse;
-import com.parse.ParseCrashReporting;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
 import java.io.File;
@@ -26,6 +24,9 @@ import java.io.File;
  * V 1.3 : 7/8/2015
  *   Update SDK jars (FB, Audience Network, add Google Play Services)
  *   Change ad implementation to use different ad managers for each hscroll unit
+ * V 1.4 : 6/14/2017
+ *   Removed android.permission.READ_PHONE_STATE and "device_id" URL parameter.
+ *   Removed usage of Parse.
  */
 public class App extends Application {
 
@@ -33,14 +34,6 @@ public class App extends Application {
 
     @Override
     public void onCreate() {
-        ParseCrashReporting.enable(this);
-
-        // Setup Parse
-        Parse.initialize(
-                this,
-                "QUCNrW39fzpWtKU8If5kfpXxMYdPO0Tg0mL9Kbel",
-                "4WiPsy3r9eV2zb1wp9D22m6DPo15YGBnqGLgG20A");
-
         File cacheDir = new File(getCacheDir(), "smoothie");
         cacheDir.mkdirs();
 

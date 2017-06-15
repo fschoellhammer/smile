@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.facebook.ads.*;
 import com.facebook.appevents.AppEventsLogger;
-import com.parse.ParseAnalytics;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -150,7 +149,6 @@ public class FeedObject extends BaseAdapter {
         if (o instanceof StoryItem) {
             return renderStoryItem((StoryItem) o, convertView, parent, position);
         } else if (o instanceof NativeAdScrollView) {
-            ParseAnalytics.trackEventInBackground("renderingScrollView");
             Map dimensions = new HashMap();
             dimensions.put("positionInFeed", "" + position);
             logEvent("scrollViewImp", dimensions);
@@ -256,11 +254,9 @@ public class FeedObject extends BaseAdapter {
     }
 
     private void logEvent(String event, Map<String, String> dimensions) {
-        ParseAnalytics.trackEventInBackground(event);
         logger.logEvent(event);
 
         if (dimensions != null) {
-            ParseAnalytics.trackEventInBackground(event, dimensions);
             for (Map.Entry<String, String> entry : dimensions.entrySet()) {
                 logger.logEvent(event + ":" + entry.getKey() + ":" + entry.getValue());
             }

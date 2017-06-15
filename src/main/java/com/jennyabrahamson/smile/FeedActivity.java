@@ -2,10 +2,8 @@ package com.jennyabrahamson.smile;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.telephony.TelephonyManager;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.appevents.AppEventsLogger;
-import com.parse.ParseAnalytics;
 import io.fabric.sdk.android.Fabric;
 
 import android.graphics.Color;
@@ -36,7 +34,6 @@ public class FeedActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
-        ParseAnalytics.trackAppOpenedInBackground(getIntent());
         setContentView(R.layout.feed);
 
         BitmapLruCache cache = App.getInstance(this).getBitmapCache();
@@ -116,9 +113,6 @@ public class FeedActivity extends ActionBarActivity {
             List<StoryItem> stories = new ArrayList<StoryItem>();
 
             Map<String, String> urlParams = new HashMap();
-            TelephonyManager tm = (TelephonyManager) FeedActivity.this.getSystemService(
-                    Context.TELEPHONY_SERVICE);
-            urlParams.put("device_id", "" + tm.getDeviceId());
             if (lastDownloadedStoryDate != null) {
                 urlParams.put("start_before", "" + lastDownloadedStoryDate.getTimeInMillis());
             }
