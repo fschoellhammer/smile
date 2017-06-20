@@ -25,7 +25,7 @@ android {
         applicationId "com.jennyabrahamson.smile"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 5
+        versionCode 6
         versionName "1.5"
     }
     buildTypes {
@@ -50,7 +50,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.facebook.android:facebook-android-sdk:4.23.0'
     compile 'com.facebook.android:audience-network-sdk:4.23.0'
-    compile ('com.github.chrisbanes.bitmapcache:library:2.2.1') {
+    compile ('com.github.chrisbanes.bitmapcache:library:2.3') {
         exclude group: 'com.google.android' // uses version 'r7' of the v4 library
     }
     compile 'org.lucasr.smoothie:smoothie:0.1.0'
