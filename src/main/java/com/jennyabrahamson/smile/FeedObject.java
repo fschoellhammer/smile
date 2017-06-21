@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.*;
 import com.facebook.ads.*;
 import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -195,6 +198,11 @@ public class FeedObject extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 boolean liked = story.getIsLiked();
+                String event = liked ? "story_unlike" : "story_like";
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, story.getTitle());
+                App.getFirebaseAnalytics().logEvent(event, bundle);
+
                 story.setLiked(!liked);
                 if (story.getIsLiked()) {
                     holder.likeButton.setTextColor(blueColor);
