@@ -199,6 +199,9 @@ public class FeedObject extends BaseAdapter {
             public void onClick(View v) {
                 boolean liked = story.getIsLiked();
                 String event = liked ? "story_unlike" : "story_like";
+                new EventLogger()
+                        .parameter("item_name", story.getTitle())
+                        .logEvent(event);
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, story.getTitle());
                 App.getFirebaseAnalytics().logEvent(event, bundle);

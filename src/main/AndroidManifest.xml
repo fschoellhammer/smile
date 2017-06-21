@@ -18,6 +18,8 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="56b5a22af9c986e2046616a5c5562ea4ec15cc48" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
         <receiver android:name="com.google.ads.conversiontracking.InstallReceiver" android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />

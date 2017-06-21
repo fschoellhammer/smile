@@ -8,4 +8,6 @@
     <string name="tab_saved">Saved</string>
     <string name="tab_feed">Feed</string>
     <string name="tab_random">Random</string>
+
+    <string name="facebook_app_id">246803032390634</string>
 </resources>

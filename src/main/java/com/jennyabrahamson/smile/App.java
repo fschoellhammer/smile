@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.hardware.camera2.params.Face;
+
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.ads.conversiontracking.AdWordsConversionReporter;
@@ -20,7 +22,7 @@ import java.io.File;
  * V 1.1 : 5/8/2015
  *   Improved image loading/caching using Smoothie
  *   Updated Audience Network jar to 4.1.1
- *   Added Parse Analytics for better crash insights
+ *   Added Parse EventLogger for better crash insights
  * V 1.2 : 5/8/2015
  *   Increase inset for hScroll
  * V 1.3 : 7/8/2015
@@ -33,6 +35,7 @@ import java.io.File;
 public class App extends Application {
 
     private static FirebaseAnalytics sFirebaseAnalytics;
+    private static AppEventsLogger sFacebookAnalytics;
 
     private BitmapLruCache mCache;
 
@@ -44,6 +47,7 @@ public class App extends Application {
 
         // Obtain the FirebaseAnalytics instance.
         sFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        sFacebookAnalytics = AppEventsLogger.newLogger(this);
 
         BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
         builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
@@ -56,8 +60,6 @@ public class App extends Application {
 
 
         mCache = builder.build();
-        FacebookSdk.setApplicationId("419566964845443");
-        FacebookSdk.sdkInitialize(this);
     }
 
     private static final String LAST_RECORDED_VERSION_KEY = "last_recorded_app_version";
@@ -97,5 +99,9 @@ public class App extends Application {
 
     public static FirebaseAnalytics getFirebaseAnalytics() {
         return sFirebaseAnalytics;
+    }
+
+    public static AppEventsLogger getFacebookAnalytics() {
+        return sFacebookAnalytics;
     }
 }
