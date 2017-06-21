@@ -10,6 +10,8 @@ import com.facebook.appevents.AppEventsLogger;
 import com.google.ads.conversiontracking.AdWordsConversionReporter;
 import uk.co.senab.bitmapcache.BitmapLruCache;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.io.File;
 
 /**
@@ -30,6 +32,8 @@ import java.io.File;
  */
 public class App extends Application {
 
+    private static FirebaseAnalytics sFirebaseAnalytics;
+
     private BitmapLruCache mCache;
 
     @Override
@@ -37,6 +41,9 @@ public class App extends Application {
         super.onCreate();
         File cacheDir = new File(getCacheDir(), "smoothie");
         cacheDir.mkdirs();
+
+        // Obtain the FirebaseAnalytics instance.
+        sFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         BitmapLruCache.Builder builder = new BitmapLruCache.Builder();
         builder.setMemoryCacheEnabled(true).setMemoryCacheMaxSizeUsingHeapSize();
@@ -86,5 +93,9 @@ public class App extends Application {
 
     public static App getInstance(Context context) {
         return (App) context.getApplicationContext();
+    }
+
+    public static FirebaseAnalytics getFirebaseAnalytics() {
+        return sFirebaseAnalytics;
     }
 }
